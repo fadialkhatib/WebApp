@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('failed_jobs', function (Blueprint $table) {
+        Schema::create('active_tokens', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid')->unique();
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->unsignedBiginteger('User_id');
+            $table->foreign('User_id')->references('id')->on('Users')->onDelete('cascade');
+            $table->String('token');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('active_tokens');
     }
 };
