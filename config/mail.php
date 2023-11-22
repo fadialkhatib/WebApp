@@ -47,7 +47,11 @@ return [
         ],
 
         'ses' => [
+<<<<<<< HEAD
             'transport' => 'ses',
+=======
+            'transport' => 'ses-v2',
+>>>>>>> de6d4f58ccda1635c24e2bf7d7d69d84e885688d
         ],
 
         'mailgun' => [
