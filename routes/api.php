@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controller\book;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+     //////Login And Regesteer Methods ////
+Route::post('user/create',[LoginController::class,'Create']);
+Route::post('user/login',[LoginController::class,'login']);
+
+    /////Login Required for this methods //////
+Route::middleware(['AuthMidleWare'])->group(function () {
+    Route::post('Check',[book::class,'checkin'])->Middleware(Queue::class);
+
+});
+
+        /////Login an Check in required for this methods /////
+Route::middleware(['AuthMidleWare', 'CheckInCheck'])->group(function () {
+
+});
+
