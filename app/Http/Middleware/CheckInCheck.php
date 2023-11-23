@@ -4,11 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Models\ActiveToken;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\ChechIn;
 
-//App\Http\Middleware\AuthMiddleWare
-class AuthMiddleWare
+class CheckInCheck
 {
     /**
      * Handle an incoming request.
@@ -17,11 +16,9 @@ class AuthMiddleWare
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->hasHeader('token') || $request->header('token') =="")      return response()->json(["message" => "Missed Token"], 401);
         $token=json_decode(base64_decode($request->header('token')));
-        $check=ActiveToken::where('token',$token)->first();
-        if(!$check) return response()->json(["message" => "InValid Token"], 401);
-
+        $checkin=CheckIn::where('file_id',$request->file_id)->where('user_id',$token->user_id)->first();
+        if(!$checkin)       return response()->json(["message"=>"you are not allowed to edit this file right now"], 405);
         return $next($request);
     }
 }
