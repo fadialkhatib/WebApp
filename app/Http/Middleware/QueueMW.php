@@ -12,6 +12,8 @@ use App\Models\checkin;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+//App\Http\Middleware\QueueMW
+
 class QueueMW
 {
     /**
@@ -36,7 +38,8 @@ class QueueMW
         if(!$file)     return response()->json(["message"=>"wrong file_id"], 404);
 
         $checkin=checkin::where('file_id',$file->id)->first();
-        if($checkin)    return response()->json(["message" => "File Not available"], 404);
+        $checkinwait=Queue::where('file_id',$file->id)->first();
+        if($checkin || $checkinwait)    return response()->json(["message" => "File Not available"], 404);
 
         $Q=new Queue();
         $Q->user_id=$token->user_id;
