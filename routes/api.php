@@ -50,6 +50,7 @@ Route::post('user/login',[LoginController::class,'login']);
     Route::post('file/editfile',[book::class,'editFile']);
     Route::post('file/replace',[book::class,'replaceFile']);
     Route::post('file/deletefile',[book::class,'delete_file']);
+    Route::post('file/deletefolder',[book::class,'delete_folder']);
     
 
 

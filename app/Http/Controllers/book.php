@@ -191,6 +191,9 @@ class book extends Controller
 
     return response()->json(["message"=>"the content editing successfully!", $newContent]); 
 }
+
+
+
 public function replaceFile(Request $request)
 {
     try{
@@ -215,5 +218,30 @@ public function replaceFile(Request $request)
     return response()->json(['message'=>$e->getMessage()]);
     }
     return response()->json(["message"=>"the content restored successfully!",$backupContent]);
+}
+
+
+public function delete_folder(Request $request)
+{
+    try{
+    $token=json_decode(base64_decode($request->header('token')));
+        $folder = Folder::where('id',$request->folder_id)->first();
+        if(!$folder)
+        {
+            return response()->json(['message'=>'this folder does not exist'],401);
+
+        }
+        $check  =upload::where('Folder_id',$folder->id)->value('owner_id');
+        if($check!=$token->user_id){
+            return response()->json(['message'=>'you can not delete this folder'],401);
+        }
+        $folder->delete();
+        //$folde->delete();
+    }catch(\Exception $e)
+    {
+        return response()->json(['message'=>$e->getMessage()],401);
+    }
+    return response()->json(['message'=>'Folder deleted successfully!'],200);
+
 }
 }
