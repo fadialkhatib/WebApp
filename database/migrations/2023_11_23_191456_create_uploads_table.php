@@ -11,13 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('belongtogroups', function (Blueprint $table) {
+        Schema::create('uploads', function (Blueprint $table) {
+
             $table->id();
-            $table->unsignedBiginteger('user_id');
-            $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade');
+
+            $table->unsignedBiginteger('owner_id');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->unsignedBiginteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+
+            $table->unsignedBiginteger('Folder_id');
+            $table->foreign('Folder_id')->references('id')->on('Folders')->onDelete('cascade');
+
+            $table->String('name');
+            
+            $table->String('File_Path');
+
             $table->timestamps();
+
         });
     }
 
@@ -26,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('belongtogroups');
+        Schema::dropIfExists('uploads');
     }
 };

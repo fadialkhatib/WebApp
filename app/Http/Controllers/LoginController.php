@@ -43,7 +43,7 @@ class LoginController extends Controller
                 return response()->json(['message'=>'you already loged in'], 401);
             }
             $newtoken->save();
-            return response()->json(['message'=>'succeeded','user_info' => $data],200,['token'=>$token]);
+            return response()->json(['message'=>'succeeded','user_info' => $data,'token'=>$token],200);
 }
 
     //signup for manager & user

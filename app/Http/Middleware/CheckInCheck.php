@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\ChechIn;
+use App\Models\CheckIn;
 
 class CheckInCheck
 {
@@ -17,7 +18,7 @@ class CheckInCheck
     public function handle(Request $request, Closure $next): Response
     {
         $token=json_decode(base64_decode($request->header('token')));
-        $checkin=CheckIn::where('file_id',$request->file_id)->where('user_id',$token->user_id)->first();
+        $checkin=CheckIn::where('file_id',$request->file_id)->where('user_id',$token->id)->first();
         if(!$checkin)       return response()->json(["message"=>"you are not allowed to edit this file right now"], 405);
         return $next($request);
     }

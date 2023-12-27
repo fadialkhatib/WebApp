@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\upload;
 use Closure;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -33,7 +34,7 @@ class QueueMW
 
         if ($validator->fails())    return response()->json(['message'=>$validator->errors()],400);
 
-        $file=file::where('id',$request->file_id)->first();
+        $file=upload::where('id',$request->file_id)->first();
 
         if(!$file)     return response()->json(["message"=>"wrong file_id"], 404);
 

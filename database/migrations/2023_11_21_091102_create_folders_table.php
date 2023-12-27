@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
             $table->String('Folder');
+            //forign  key for group
             $table->timestamps();
         });
     }
